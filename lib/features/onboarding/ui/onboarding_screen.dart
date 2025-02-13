@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../../extensions/build_context_extension.dart';
 import '../../../features/common/ui/widgets/common_text_form_field.dart';
@@ -50,8 +51,14 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
           child: Column(
             children: [
               GestureDetector(
-                onTap: () {
-                  // TODO: Implement image picker
+                onTap: () async {
+                  final imagePicker  = ImagePicker();
+                  final image = await imagePicker.pickImage(source: ImageSource.gallery);
+                  if (image != null) {
+                    // ref.read(profileViewModelProvider.notifier).updateProfile(
+                    //   profileImage: imagePicker.imagePath,
+                    // );
+                  }
                 },
                 child: CircleAvatar(
                   radius: 50,

@@ -36,6 +36,7 @@ class SlideRouteTransition extends CustomTransitionPage<void> {
 }
 
 final GoRouter router = GoRouter(
+  debugLogDiagnostics: true,
   initialLocation: Routes.splash,
   routes: [
     GoRoute(

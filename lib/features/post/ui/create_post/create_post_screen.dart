@@ -186,6 +186,7 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
         CircleAvatar(
           child: CommonCachedImage(
             imageUrl: profile?.avatar ?? '',
+            fit: BoxFit.contain,
           ),
         ),
         SizedBox(

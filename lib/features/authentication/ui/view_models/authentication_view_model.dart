@@ -50,7 +50,7 @@ class AuthenticationViewModel extends _$AuthenticationViewModel {
     state = AsyncData(AuthenticationState(
       authResponse: result.value!,
       isRegisterSuccessfully: true,
-      isSignInSuccessfully: true,
+      isSignInSuccessfully: false,
     ));
   }
 

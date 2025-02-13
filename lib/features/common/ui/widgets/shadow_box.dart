@@ -20,7 +20,7 @@ class ShadowBox extends StatelessWidget {
         borderRadius: borderRadius,
         boxShadow: [
           BoxShadow(
-            color: AppColors.mono100.withOpacity(0.24),
+            color: AppColors.mono100.withValues(alpha: 0.24),
             blurRadius: 16,
             offset: const Offset(0, 4),
           ),
