@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "937565148047",
+    "project_id": "madsm-ff701",
+    "storage_bucket": "madsm-ff701.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:937565148047:android:c19436eede63f76673f1fa",
+        "android_client_info": {
+          "package_name": "com.hiutin.madsm"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDjYnjq6RLFEGm2wfXO2jGUfEOrGDNJWzc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
