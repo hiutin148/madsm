@@ -77,7 +77,7 @@ class MainApp extends ConsumerWidget {
           FocusManager.instance.primaryFocus?.unfocus();
         },
         child: MaterialApp.router(
-          theme: context.darkTheme,
+          theme: context.lightTheme,
           darkTheme: context.darkTheme,
           themeMode: themeMode.value,
           localizationsDelegates: context.localizationDelegates,

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hugeicons/hugeicons.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:madsm/utils/utils.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -36,35 +38,35 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final profile = ref.watch(profileViewModelProvider).value?.profile;
-    final dangerousColor =
-        context.isDarkMode ? AppColors.rambutan80 : AppColors.rambutan100;
+    final dangerousColor = context.isDarkMode ? AppColors.rambutan80 : AppColors.rambutan100;
     return Scaffold(
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.symmetric(vertical: 32),
           children: [
-            Column(
-              children: [
-                CircleAvatar(
-                  radius: 48,
-                  backgroundColor: AppColors.blueberry80,
-                  backgroundImage: AssetImage(Assets.avatar),
-                  foregroundImage: profile?.avatar != null
-                      ? NetworkImage(profile?.avatar ?? '')
-                      : null,
-                ),
-              ],
+            GestureDetector(
+              onTap: _onAvatarTap,
+              child: Column(
+                children: [
+                  CircleAvatar(
+                    radius: 48,
+                    backgroundColor: AppColors.blueberry80,
+                    backgroundImage: AssetImage(Assets.avatar),
+                    foregroundImage: profile?.avatar != null ? NetworkImage(profile?.avatar ?? '') : null,
+                  ),
+                ],
+              ),
             ),
             const SizedBox(height: 16),
             Center(
               child: Text(
-                profile?.name ?? 'Henry Nguyen',
+                profile?.name ?? 'Undefined',
                 style: AppTheme.titleExtraLarge24,
               ),
             ),
             Center(
               child: Text(
-                profile?.email ?? 'namanh11611@gmail.com',
+                profile?.email ?? 'Undefined',
                 style: AppTheme.bodyMedium14.copyWith(
                   color: context.secondaryTextColor,
                 ),
@@ -83,7 +85,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             ProfileItem(
               icon: HugeIcons.strokeRoundedUser,
               text: 'account_information'.tr(),
-              onTap: () {},
+              onTap: () {
+                context.push(Routes.accountInformation);
+              },
             ),
             ProfileItem(
               icon: HugeIcons.strokeRoundedIdea,
@@ -162,6 +166,45 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           ],
         ),
       ),
+    );
+  }
+
+  void _onAvatarTap() {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.camera_alt),
+              title: Text('Take a photo'.tr()),
+              onTap: () {
+                ref.read(profileViewModelProvider.notifier).updateAvatar(ImageSource.camera);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.photo),
+              title: Text('Choose from gallery'.tr()),
+              onTap: () {
+                ref.read(profileViewModelProvider.notifier).updateAvatar(ImageSource.gallery);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.remove_red_eye),
+              title: Text('View'.tr()),
+              onTap: () {
+                Utils.openPhotoView(
+                  context: context,
+                  imageProvider: NetworkImage(
+                    ref.read(profileViewModelProvider).value?.profile?.avatar ?? '',
+                  ),
+                );
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 

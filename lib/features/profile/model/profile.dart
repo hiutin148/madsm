@@ -11,6 +11,7 @@ class Profile with _$Profile {
     @Default(null) String? email,
     @Default(null) String? name,
     @Default(null) String? job,
+    @JsonKey(name: 'avatar_url')
     @Default(null) String? avatar,
     @Default(null) int? diamond,
     @JsonKey(name: 'expiry_date_premium')

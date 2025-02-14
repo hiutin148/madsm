@@ -11,4 +11,14 @@ class NewFeedViewModel extends _$NewFeedViewModel {
     final posts = await ref.read(postRepositoryProvider).fetchPost();
     return posts;
   }
+
+  void refreshNewFeed() async {
+    state = AsyncLoading();
+    try {
+      final posts = await ref.read(postRepositoryProvider).fetchPost();
+      state = AsyncData(posts);
+    } catch (e) {
+      state = AsyncError(e, StackTrace.current);
+    }
+  }
 }

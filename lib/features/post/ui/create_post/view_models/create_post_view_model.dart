@@ -18,16 +18,18 @@ class CreatePostViewModel extends _$CreatePostViewModel {
     state = AsyncLoading();
     try {
       final postData = ref.read(postEditorViewModelProvider).value;
-      final userId = ref.read(profileViewModelProvider).value?.profile?.id ?? '';
+      final profile = ref.read(profileViewModelProvider).value?.profile;
       if (postData == null) {
         return;
       }
       final Post post = Post(
         id: const Uuid().v4(),
-        userId: userId,
+        userId: profile?.id ?? '',
         content: postData.content,
         media: postData.media,
-        createdAt: DateTime.now(),
+        createdAt: DateTime.now().toUtc(),
+        userAvatar: profile?.avatar ?? '',
+        userName: profile?.name ?? '',
       );
 
       await ref.read(postRepositoryProvider).publishPost(post);

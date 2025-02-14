@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import 'package:madsm/constants/assets.dart';
 import 'package:madsm/extensions/build_context_extension.dart';
 import 'package:madsm/features/common/ui/widgets/circle_button.dart';
-import 'package:madsm/features/common/ui/widgets/common_cached_image.dart';
 import 'package:madsm/features/common/ui/widgets/common_icon_button.dart';
 import 'package:madsm/features/common/ui/widgets/primary_button.dart';
 import 'package:madsm/features/post/model/post.dart';
@@ -57,6 +56,7 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
         if (next is AsyncData) {
           if (next.value == true) {
             context.showSuccessSnackBar('Successfully publish');
+            context.pop();
           }
         }
       },
@@ -184,10 +184,7 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
       mainAxisSize: MainAxisSize.min,
       children: [
         CircleAvatar(
-          child: CommonCachedImage(
-            imageUrl: profile?.avatar ?? '',
-            fit: BoxFit.contain,
-          ),
+          foregroundImage: NetworkImage(profile?.avatar ?? ''),
         ),
         SizedBox(
           width: 12,

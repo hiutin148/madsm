@@ -1,3 +1,7 @@
+import 'package:image_picker/image_picker.dart';
+import 'package:madsm/constants/constants.dart';
+import 'package:madsm/utils/image_picker_helper.dart';
+import 'package:madsm/utils/supabase_storage_helper.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../features/profile/model/profile.dart';
@@ -39,6 +43,20 @@ class ProfileViewModel extends _$ProfileViewModel {
       state = AsyncData(ProfileState(profile: updatedProfile));
     } catch (error) {
       state = AsyncError(error, StackTrace.current);
+    }
+  }
+
+  void updateAvatar(ImageSource imageSource) async {
+    final image = await ImagePickerHelper.pickImage(imageSource);
+    if (image != null) {
+      final userId = state.value?.profile?.id ?? 'Unknown_user';
+      final path = '$userId/images/${DateTime.now().millisecondsSinceEpoch}';
+      final url = await SupabaseStorageHelper.instance.uploadFile(
+        Constants.avatarsBucket,
+        path,
+        image,
+      );
+      updateProfile(avatar: url);
     }
   }
 

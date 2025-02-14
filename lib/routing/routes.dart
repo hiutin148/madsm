@@ -11,4 +11,6 @@ class Routes {
   static const languages = '/languages';
   static const premium = '/premium';
   static const createPost = '/createPost';
+  static const photoView = '/photoView';
+  static const accountInformation = '/accountInformation';
 }

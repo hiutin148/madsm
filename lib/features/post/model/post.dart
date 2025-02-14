@@ -8,8 +8,9 @@ part 'post.g.dart';
 class Post with _$Post {
   factory Post({
     String? id,
-    @JsonKey(name: 'user_id')
-    required String userId,
+    @JsonKey(name: 'user_id') required String userId,
+    @JsonKey(name: 'user_avatar') required String userAvatar,
+    @JsonKey(name: 'user_name') required String userName,
     required String content,
     required List<Media> media,
     @JsonKey(name: 'created_at') required DateTime createdAt,

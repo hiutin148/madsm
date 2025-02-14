@@ -17,4 +17,5 @@ class Constants {
 
   // Supabase storage
   static const String userMediaBucket = 'user_media_bucket';
+  static const String avatarsBucket = 'avatars';
 }

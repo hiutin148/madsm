@@ -68,7 +68,9 @@ dependencies:
   file_picker: ^8.3.3
   giphy_picker: ^3.0.2
   cached_network_image: ^3.4.1
-
+  photo_view: ^0.15.0
+  flutter_image_compress: ^2.4.0
+  smooth_page_indicator: ^1.2.0+3
 
 dev_dependencies:
   build_runner: ^2.4.13

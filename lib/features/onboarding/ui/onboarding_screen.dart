@@ -1,7 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:madsm/constants/constants.dart';
+import 'package:madsm/features/common/ui/widgets/common_cached_image.dart';
+import 'package:madsm/utils/supabase_storage_helper.dart';
 
 import '../../../extensions/build_context_extension.dart';
 import '../../../features/common/ui/widgets/common_text_form_field.dart';
@@ -19,6 +24,7 @@ class OnboardingScreen extends ConsumerStatefulWidget {
 class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   final TextEditingController _nameController = TextEditingController();
   bool _isButtonEnabled = false;
+  String? imageUrl;
 
   @override
   void initState() {
@@ -52,22 +58,36 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
             children: [
               GestureDetector(
                 onTap: () async {
-                  final imagePicker  = ImagePicker();
+                  final imagePicker = ImagePicker();
                   final image = await imagePicker.pickImage(source: ImageSource.gallery);
                   if (image != null) {
-                    // ref.read(profileViewModelProvider.notifier).updateProfile(
-                    //   profileImage: imagePicker.imagePath,
-                    // );
+                    final userId = ref.read(profileViewModelProvider).value?.profile?.id ?? 'Unknown_user';
+                    final path = '$userId/images/${DateTime.now().millisecondsSinceEpoch}';
+                    final url = await SupabaseStorageHelper.instance.uploadFile(
+                      Constants.avatarsBucket,
+                      path,
+                      File(image.path),
+                    );
+                    await ref.read(profileViewModelProvider.notifier).updateProfile(
+                          avatar: url,
+                        );
+                    setState(() {
+                      imageUrl = url;
+                    });
                   }
                 },
                 child: CircleAvatar(
                   radius: 50,
                   backgroundColor: Colors.grey[300],
-                  child: const Icon(
-                    Icons.camera_alt,
-                    size: 40,
-                    color: Colors.grey,
-                  ),
+                  child: imageUrl == null
+                      ? const Icon(
+                          Icons.camera_alt,
+                          size: 40,
+                          color: Colors.grey,
+                        )
+                      : CommonCachedImage(
+                          imageUrl: imageUrl ?? '',
+                        ),
                 ),
               ),
               const SizedBox(height: 24),

@@ -17,6 +17,7 @@ class Assets {
   static const icGIF = 'assets/icons/GIF.svg';
   static const icAttachment = 'assets/icons/attachment.svg';
   static const icLike = 'assets/icons/ic_like.svg';
+  static const icLikeFilled = 'assets/icons/ic_like_filled.svg';
   static const icComments = 'assets/icons/ic_comments.svg';
   static const icShare = 'assets/icons/ic_share.svg';
   static const icBookmarks = 'assets/icons/ic_bookmarks.svg';

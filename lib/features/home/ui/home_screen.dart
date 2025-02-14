@@ -1,67 +1,78 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hugeicons/hugeicons.dart';
+import 'package:go_router/go_router.dart';
+import 'package:madsm/features/home/ui/view_model/bottom_nav_view_model.dart';
 import 'package:madsm/features/new_feed/ui/new_feed_screen.dart';
+import 'package:madsm/routing/routes.dart';
 
-import '../../../extensions/build_context_extension.dart';
 import '../../../features/profile/ui/profile_screen.dart';
-import '../../../theme/app_colors.dart';
-import '../../../theme/app_theme.dart';
 
 const List<Widget> _screens = [
   NewFeedScreen(),
   ProfileScreen(),
 ];
 
-class HomeScreen extends ConsumerStatefulWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  ConsumerState createState() => _HomeScreenState();
+  State createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends ConsumerState<HomeScreen> {
-  var _currentIndex = 0;
+class _HomeScreenState extends State<HomeScreen> {
+  final PageController pageController = PageController();
 
   @override
   Widget build(BuildContext context) {
-    final selectedColor =
-        context.isDarkMode ? AppColors.blueberry100 : AppColors.blueberry100;
-    final unselectedColor =
-        context.isDarkMode ? AppColors.mono40 : AppColors.mono60;
     return Scaffold(
-      body: _screens[_currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        items: [
-          BottomNavigationBarItem(
-            icon: HugeIcon(
-              icon: HugeIcons.strokeRoundedZap,
-              color: _currentIndex == 0 ? selectedColor : unselectedColor,
-              size: 20,
-            ),
-            label: 'menu_hero'.tr(),
-          ),
-          BottomNavigationBarItem(
-            icon: HugeIcon(
-              icon: HugeIcons.strokeRoundedUser,
-              color: _currentIndex == 1 ? selectedColor : unselectedColor,
-              size: 20,
-            ),
-            label: 'menu_profile'.tr(),
-          ),
-        ],
-        currentIndex: _currentIndex,
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
-        backgroundColor: context.secondaryWidgetColor,
-        selectedItemColor: selectedColor,
-        selectedLabelStyle: AppTheme.titleTiny12,
-        unselectedLabelStyle: AppTheme.titleTiny12,
+      body: PageView(
+        physics: NeverScrollableScrollPhysics(),
+        controller: pageController,
+        children: _screens,
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          context.push(Routes.createPost);
+        },
+        shape: CircleBorder(),
+        child: const Icon(Icons.add),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: Consumer(builder: (context, ref, __) {
+        final currentIndex = ref.watch(bottomNavViewModelProvider).value ?? 0;
+        return Container(
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(color: Colors.black45, blurRadius: 5.0),
+            ],
+          ),
+          child: BottomNavigationBar(
+            items: [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: 'menu_hero'.tr(),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.person),
+                label: 'menu_profile'.tr(),
+              ),
+            ],
+            elevation: 12,
+            currentIndex: currentIndex,
+            onTap: (index) {
+              ref.read(bottomNavViewModelProvider.notifier).switchTab(index);
+              pageController.animateToPage(
+                index,
+                duration: Duration(
+                  milliseconds: 100,
+                ),
+                curve: Curves.easeIn,
+              );
+            },
+          ),
+        );
+      }),
     );
   }
 }

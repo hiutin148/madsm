@@ -7,6 +7,7 @@ import 'package:madsm/constants/constants.dart';
 import 'package:madsm/features/post/model/post.dart';
 import 'package:madsm/features/post/ui/create_post/state/post_editor_state.dart';
 import 'package:madsm/features/profile/ui/view_models/profile_view_model.dart';
+import 'package:madsm/utils/image_picker_helper.dart';
 import 'package:madsm/utils/supabase_storage_helper.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -25,8 +26,7 @@ class PostEditorViewModel extends _$PostEditorViewModel {
 
   void pickMedia() async {
     try {
-      final ImagePicker picker = ImagePicker();
-      final XFile? image = await picker.pickMedia();
+      final image = await ImagePickerHelper.pickImage(ImageSource.gallery);
       if (image == null) {
         return;
       }
@@ -52,14 +52,13 @@ class PostEditorViewModel extends _$PostEditorViewModel {
 
   void takePicture() async {
     try {
-      final ImagePicker picker = ImagePicker();
-      final XFile? image = await picker.pickImage(source: ImageSource.camera);
-      if (image == null) {
+      final pickedImage = await ImagePickerHelper.pickImage(ImageSource.camera);
+      if (pickedImage == null) {
         return;
       }
       final userId = ref.read(profileViewModelProvider).value?.profile?.id ?? 'Unknown_user';
       final path = '$userId/images/${DateTime.now().millisecondsSinceEpoch}';
-      final url = await SupabaseStorageHelper.instance.uploadFile(Constants.userMediaBucket, path, File(image.path));
+      final url = await SupabaseStorageHelper.instance.uploadFile(Constants.userMediaBucket, path, pickedImage);
       state = AsyncData(
         state.value!.copyWith(
           media: [
