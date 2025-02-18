@@ -15,7 +15,7 @@ class CommonCachedImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return CachedNetworkImage(
       imageUrl: imageUrl,
-      errorWidget: (context, url, error) => Icon(Icons.person),
+      errorWidget: (context, url, error) => Icon(Icons.image),
       placeholder: (context, url) => CircularProgressIndicator(),
     );
   }

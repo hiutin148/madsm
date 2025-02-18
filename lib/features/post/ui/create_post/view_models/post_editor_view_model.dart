@@ -1,10 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:giphy_picker/giphy_picker.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:madsm/constants/constants.dart';
-import 'package:madsm/features/post/model/post.dart';
+import 'package:madsm/features/post/model/post/post.dart';
 import 'package:madsm/features/post/ui/create_post/state/post_editor_state.dart';
 import 'package:madsm/features/profile/ui/view_models/profile_view_model.dart';
 import 'package:madsm/utils/image_picker_helper.dart';
@@ -32,7 +30,7 @@ class PostEditorViewModel extends _$PostEditorViewModel {
       }
       final userId = ref.read(profileViewModelProvider).value?.profile?.id ?? 'Unknown_user';
       final path = '$userId/images/${DateTime.now().millisecondsSinceEpoch}';
-      final url = await SupabaseStorageHelper.instance.uploadFile(Constants.userMediaBucket, path, File(image.path));
+      final url = await SupabaseStorageHelper.instance.uploadFile(Constants.userMediaBucket, path, image);
       state = AsyncData(
         state.value!.copyWith(
           media: [
@@ -45,6 +43,7 @@ class PostEditorViewModel extends _$PostEditorViewModel {
           ],
         ),
       );
+      image.delete();
     } catch (e) {
       state = AsyncError(e, StackTrace.current);
     }

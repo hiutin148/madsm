@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:madsm/constants/constants.dart';
 import 'package:madsm/utils/image_picker_helper.dart';
@@ -30,12 +31,12 @@ class ProfileViewModel extends _$ProfileViewModel {
 
       final updatedProfile = currentProfile?.copyWith(
             email: email ?? currentProfile.email,
-            name: name ?? currentProfile.name,
+            username: name ?? currentProfile.username,
             avatar: avatar ?? currentProfile.avatar,
           ) ??
           Profile(
             email: email,
-            name: name,
+            username: name,
             avatar: avatar,
           );
 
@@ -58,6 +59,17 @@ class ProfileViewModel extends _$ProfileViewModel {
       );
       updateProfile(avatar: url);
     }
+  }
+
+  void updateFcmToken() async {
+    final currentProfile = state.value?.profile;
+    final token = await FirebaseMessaging.instance.getToken();
+    final updatedProfile = currentProfile?.copyWith(
+          fcmToken: token,
+        ) ??
+        Profile(fcmToken: token);
+    await ref.read(profileRepositoryProvider).update(updatedProfile);
+    state = AsyncData(ProfileState(profile: updatedProfile));
   }
 
   Future<void> refreshProfile() async {

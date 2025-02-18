@@ -1,5 +1,5 @@
 import 'package:madsm/features/new_feed/ui/state/new_feed_item_state.dart';
-import 'package:madsm/features/post/model/post.dart';
+import 'package:madsm/features/post/model/post/post.dart';
 import 'package:madsm/features/post/repository/post_repository.dart';
 import 'package:madsm/features/profile/ui/view_models/profile_view_model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -52,6 +52,15 @@ class NewFeedItemViewModel extends _$NewFeedItemViewModel {
             postId: state.value?.post.id ?? '',
             userId: userId,
           );
+      state = AsyncData(state.value!.copyWith(post: post));
+    } catch (e) {
+      state = AsyncData(state.value!.copyWith(isLiked: true));
+    }
+  }
+
+  void refreshPost() async {
+    try {
+      final post = await ref.read(postRepositoryProvider).getPostById(state.value?.post.id ?? '');
       state = AsyncData(state.value!.copyWith(post: post));
     } catch (e) {
       state = AsyncData(state.value!.copyWith(isLiked: true));

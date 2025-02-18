@@ -13,4 +13,5 @@ class Routes {
   static const createPost = '/createPost';
   static const photoView = '/photoView';
   static const accountInformation = '/accountInformation';
+  static const postDetail = '/postDetail';
 }

@@ -1,4 +1,4 @@
-import 'package:madsm/features/post/model/post.dart';
+import 'package:madsm/features/post/model/post/post.dart';
 import 'package:madsm/features/post/repository/post_repository.dart';
 import 'package:madsm/features/post/ui/create_post/view_models/post_editor_view_model.dart';
 import 'package:madsm/features/profile/ui/view_models/profile_view_model.dart';
@@ -29,11 +29,12 @@ class CreatePostViewModel extends _$CreatePostViewModel {
         media: postData.media,
         createdAt: DateTime.now().toUtc(),
         userAvatar: profile?.avatar ?? '',
-        userName: profile?.name ?? '',
+        userName: profile?.username ?? '',
       );
 
       await ref.read(postRepositoryProvider).publishPost(post);
-      state = AsyncData(true);
+      ref.read(postEditorViewModelProvider.notifier).discardPost();
+       state = AsyncData(true);
     } catch (e) {
       state = AsyncError(e, StackTrace.current);
     }

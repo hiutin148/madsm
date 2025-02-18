@@ -1,4 +1,4 @@
-import 'package:madsm/features/post/model/post.dart';
+import 'package:madsm/features/post/model/post/post.dart';
 import 'package:madsm/features/post/repository/post_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

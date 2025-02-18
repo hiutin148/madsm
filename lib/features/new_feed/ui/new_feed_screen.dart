@@ -8,7 +8,7 @@ import '../../../constants/languages.dart';
 import '../../../extensions/build_context_extension.dart';
 import '../../../theme/app_theme.dart';
 import '../../common/ui/widgets/common_empty_data.dart';
-import 'widgets/shimmer_hero_grid.dart';
+import 'widgets/shimmer_new_feed_list.dart';
 
 class NewFeedScreen extends ConsumerStatefulWidget {
   const NewFeedScreen({super.key});
@@ -43,30 +43,34 @@ class _NewFeedScreenState extends ConsumerState<NewFeedScreen> with AutomaticKee
         onRefresh: () async {
           ref.read(newFeedViewModelProvider.notifier).refreshNewFeed();
         },
-        child: postsState.when(
-          data: (state) {
-            if (state.isEmpty) {
-              return const CommonEmptyData();
-            }
-            return ListView.separated(
-              padding: const EdgeInsets.all(16),
-              itemCount: state.length,
-              itemBuilder: (context, index) {
-                final post = state[index];
-                return NewFeedItem(post: post);
-              },
-              separatorBuilder: (BuildContext context, int index) {
-                return SizedBox(
-                  height: 24,
+        child: CustomScrollView(
+          slivers: [
+            postsState.when(
+              data: (state) {
+                if (state.isEmpty) {
+                  return SliverToBoxAdapter(child: const CommonEmptyData());
+                }
+                return SliverList.builder(
+                  itemCount: state.length,
+                  itemBuilder: (context, index) {
+                    final post = state[index];
+                    return NewFeedItem(post: post);
+                  },
+                  addAutomaticKeepAlives: false,
                 );
               },
-            );
-          },
-          loading: () => const ShimmerHeroGrid(),
-          error: (error, stack) => Center(child: Text(error.toString())),
+              loading: () => SliverToBoxAdapter(child: const ShimmerNewFeedList()),
+              error: (error, stack) => SliverToBoxAdapter(
+                child: Center(
+                  child: Text(
+                    error.toString(),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
-
     );
   }
 

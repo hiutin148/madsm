@@ -9,6 +9,7 @@ class CommonTextFormField extends StatefulWidget {
   final String? Function(String?)? validator;
   final String? errorText;
   final bool isPassword;
+  final String? hintText;
 
   const CommonTextFormField({
     super.key,
@@ -17,6 +18,7 @@ class CommonTextFormField extends StatefulWidget {
     this.validator,
     this.errorText,
     this.isPassword = false,
+    this.hintText,
   });
 
   @override
@@ -51,6 +53,8 @@ class _CommonTextFormFieldState extends State<CommonTextFormField> {
       decoration: InputDecoration(
         labelText: widget.label,
         labelStyle: AppTheme.bodyLarge16,
+        hintText: widget.hintText,
+        hintStyle: AppTheme.bodyLarge16,
         border: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(8)),
         ),

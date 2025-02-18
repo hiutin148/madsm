@@ -9,7 +9,7 @@ class Profile with _$Profile {
   const factory Profile({
     @Default(null) String? id,
     @Default(null) String? email,
-    @Default(null) String? name,
+    @Default(null) String? username,
     @Default(null) String? job,
     @JsonKey(name: 'avatar_url')
     @Default(null) String? avatar,
@@ -22,6 +22,8 @@ class Profile with _$Profile {
     bool? isLifetimePremium,
     @Default([]) List<String> followings,
     @Default([]) List<String> followers,
+    @JsonKey(name: 'fcm_token')
+    String? fcmToken,
   }) = _Profile;
 
   factory Profile.fromJson(Map<String, Object?> json) => _$ProfileFromJson(json);

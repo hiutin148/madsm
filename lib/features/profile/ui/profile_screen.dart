@@ -60,7 +60,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             const SizedBox(height: 16),
             Center(
               child: Text(
-                profile?.name ?? 'Undefined',
+                profile?.username ?? 'Undefined',
                 style: AppTheme.titleExtraLarge24,
               ),
             ),

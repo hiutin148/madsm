@@ -7,7 +7,7 @@ import 'package:madsm/extensions/build_context_extension.dart';
 import 'package:madsm/features/common/ui/widgets/circle_button.dart';
 import 'package:madsm/features/common/ui/widgets/common_icon_button.dart';
 import 'package:madsm/features/common/ui/widgets/primary_button.dart';
-import 'package:madsm/features/post/model/post.dart';
+import 'package:madsm/features/post/model/post/post.dart';
 import 'package:madsm/features/post/ui/create_post/view_models/create_post_view_model.dart';
 import 'package:madsm/features/profile/model/profile.dart';
 import 'package:madsm/features/profile/ui/view_models/profile_view_model.dart';

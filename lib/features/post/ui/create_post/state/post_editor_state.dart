@@ -1,4 +1,4 @@
-import 'package:madsm/features/post/model/post.dart';
+import 'package:madsm/features/post/model/post/post.dart';
 
 class PostEditorState {
   final String content;

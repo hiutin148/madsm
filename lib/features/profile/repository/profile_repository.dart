@@ -29,10 +29,11 @@ class ProfileRepository {
           .from('profiles')
           .update({
             if (profile.email != null) 'email': profile.email,
-            if (profile.name != null) 'username': profile.name,
+            if (profile.username != null) 'username': profile.username,
             if (profile.job != null) 'job': profile.job,
             if (profile.avatar != null) 'avatar_url': profile.avatar,
             if (profile.diamond != null) 'diamond': profile.diamond,
+            if (profile.fcmToken != null) 'fcm_token': profile.fcmToken,
             if (profile.expiryDatePremium != null)
               'expiry_date_premium':
                   profile.expiryDatePremium?.toIso8601String(),

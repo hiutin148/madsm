@@ -27,7 +27,7 @@ class SplashScreen extends ConsumerWidget {
     await Future.delayed(const Duration(seconds: 1));
     if (!context.mounted) return;
     if (isLoggedIn) {
-      ref.read(profileViewModelProvider);
+      ref.read(profileViewModelProvider.notifier).updateFcmToken();
       context.pushReplacement(Routes.home);
     } else {
       context.pushReplacement(Routes.welcome);

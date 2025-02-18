@@ -20,12 +20,36 @@ extension ThemeModeExtension on BuildContext {
   Color get dividerColor => isDarkMode ? AppColors.mono80 : AppColors.mono20;
 
   ThemeData get lightTheme => ThemeData.light().copyWith(
-      colorScheme: ColorScheme.fromSeed(seedColor: Color(0XFF2C3930)),
-      textButtonTheme: TextButtonThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Color(0XFF2C3930)),
+        textButtonTheme: TextButtonThemeData(
           style: ButtonStyle(
-        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        padding: WidgetStatePropertyAll(EdgeInsets.zero),
-      )));
+            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            padding: WidgetStatePropertyAll(EdgeInsets.zero),
+          ),
+        ),
+        textTheme: TextTheme(
+          // Display
+          displayLarge: TextStyle(fontSize: 57, fontWeight: FontWeight.w400, height: 64 / 57, color: Colors.black),
+          displayMedium: TextStyle(fontSize: 45, fontWeight: FontWeight.w400, height: 52 / 45, color: Colors.black),
+          displaySmall: TextStyle(fontSize: 36, fontWeight: FontWeight.w400, height: 44 / 36, color: Colors.black),
+          // Headline
+          headlineLarge: TextStyle(fontSize: 32, fontWeight: FontWeight.w400, height: 40 / 32, color: Colors.black),
+          headlineMedium: TextStyle(fontSize: 28, fontWeight: FontWeight.w400, height: 36 / 28, color: Colors.black),
+          headlineSmall: TextStyle(fontSize: 24, fontWeight: FontWeight.w400, height: 32 / 24, color: Colors.black),
+          // Title
+          titleLarge: TextStyle(fontSize: 22, fontWeight: FontWeight.w400, height: 28 / 22, color: Colors.black),
+          titleMedium: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, height: 24 / 16, color: Colors.black),
+          titleSmall: TextStyle(fontSize: 14, fontWeight: FontWeight.w400, height: 20 / 14, color: Colors.black),
+          // Body
+          bodyLarge: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, height: 24 / 16, color: Colors.black),
+          bodyMedium: TextStyle(fontSize: 14, fontWeight: FontWeight.w400, height: 20 / 14, color: Colors.black),
+          bodySmall: TextStyle(fontSize: 12, fontWeight: FontWeight.w400, height: 16 / 12, color: Colors.black),
+          // Label
+          labelLarge: TextStyle(fontSize: 14, fontWeight: FontWeight.w400, height: 20 / 14, color: Colors.black),
+          labelMedium: TextStyle(fontSize: 12, fontWeight: FontWeight.w400, height: 16 / 12, color: Colors.black),
+          labelSmall: TextStyle(fontSize: 11, fontWeight: FontWeight.w400, height: 16 / 11, color: Colors.black),
+        ),
+      );
 
   ThemeData get darkTheme => ThemeData.dark().copyWith(
         colorScheme: ColorScheme.fromSeed(seedColor: Color(0XFF2C3930)),
@@ -56,4 +80,8 @@ extension ThemeModeExtension on BuildContext {
       }
     }
   }
+
+  TextTheme get textTheme => Theme.of(this).textTheme;
+
+  ThemeData get theme => Theme.of(this);
 }

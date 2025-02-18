@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:madsm/features/photo_view/photo_view_screen.dart';
+import 'package:madsm/features/post/model/post/post.dart';
 import 'package:madsm/features/post/ui/create_post/create_post_screen.dart';
+import 'package:madsm/features/post/ui/post_detail/post_detail_screen.dart';
 import 'package:madsm/features/profile/ui/account_information_screen.dart';
 
 import '../features/authentication/ui/otp_screen.dart';
@@ -119,6 +121,13 @@ final GoRouter router = GoRouter(
       pageBuilder: (context, state) => SlideRouteTransition(
         child: AccountInformationScreen(),
         routeName: Routes.accountInformation,
+      ),
+    ),
+    GoRoute(
+      path: Routes.postDetail,
+      name: Routes.postDetail,
+      builder: (context, state) => PostDetailScreen(
+        post: state.extra as Post,
       ),
     ),
   ],
